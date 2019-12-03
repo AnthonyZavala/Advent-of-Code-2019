@@ -34,16 +34,16 @@ let main argv =
     let set1 = path1.Tail |> Set.ofList
     let set2 = path2.Tail |> Set.ofList
 
-    let intersects = (set1, set2) ||> Set.intersect
+    let intersects = (set1, set2) ||> Set.intersect |> Set.toList
 
     // Part 1
-    let minDistance = intersects |> Set.map (fun (x,y) -> Math.Abs(x) + Math.Abs(y)) |> Set.minElement
+    let minDistance = intersects |> List.map (fun (x,y) -> Math.Abs(x) + Math.Abs(y)) |> List.min
     printfn "%A" intersects
     printfn "%A" minDistance
 
     // Part 2
-    let steps1 = intersects |> Set.toList |> List.map (fun coordinates -> path1 |> List.findIndex (fun x -> x = coordinates))
-    let steps2 = intersects |> Set.toList |> List.map (fun coordinates -> path2 |> List.findIndex (fun x -> x = coordinates))
+    let steps1 = intersects |> List.map (fun coordinates -> path1 |> List.findIndex (fun x -> x = coordinates))
+    let steps2 = intersects |> List.map (fun coordinates -> path2 |> List.findIndex (fun x -> x = coordinates))
     printfn "%A" steps1
     printfn "%A" steps2
     let minSteps = (steps1, steps2) ||> List.map2 (fun step1 step2 -> (step1 + step2)) |> List.min
